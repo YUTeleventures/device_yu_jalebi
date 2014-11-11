@@ -37,7 +37,7 @@ DEVICE_PACKAGE_OVERLAYS += device/yu/jalebi/overlay
 PRODUCT_PACKAGE_OVERLAYS += device/yu/jalebi/overlay
 
 # Screen density
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 # System property
