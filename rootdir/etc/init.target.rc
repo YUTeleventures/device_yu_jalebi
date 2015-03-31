@@ -26,7 +26,6 @@
 #
 
 on boot
-
     # Torch
     chown system camera /sys/class/leds/torch-light/brightness
     chmod 0660 /sys/class/leds/torch-light/brightness
