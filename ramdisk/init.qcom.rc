@@ -296,8 +296,6 @@ on boot
 
 on property:init.svc.bootanim=stopped
 
-    write /sys/module/lpm_levels/parameters/sleep_disabled 0
-
     # Adaptive LMK
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
@@ -327,6 +325,8 @@ on property:init.svc.bootanim=stopped
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
+
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
 
     write /proc/sys/kernel/sched_window_stats_policy 2
     write /proc/sys/kernel/sched_ravg_hist_size 5
