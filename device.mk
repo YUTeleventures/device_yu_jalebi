@@ -101,6 +101,3 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     libwcnss_qmi \
     wcnss_service
-
-# Inherit the rest from msm8916-common
-$(call inherit-product, device/cyanogen/msm8916-common/msm8916.mk)
