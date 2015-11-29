@@ -17,10 +17,6 @@ $(call inherit-product-if-exists, vendor/yu/jalebi/jalebi-vendor.mk)
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
-# WCNSS
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8916_32/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
-
 # Ramdisk
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,device/yu/jalebi/ramdisk,root)
@@ -76,6 +72,10 @@ PRODUCT_PACKAGES += \
     libjni_livedisplay_qdcm \
     pp_calib_data_nt35521_dijing_4p7inch_hd_video_panel.xml \
     svi_config.xml
+
+# dtbToolYU
+PRODUCT_PACKAGES += \
+    dtbToolYU
 
 # GPS
 PRODUCT_PACKAGES += \
