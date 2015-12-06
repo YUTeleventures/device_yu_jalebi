@@ -16,9 +16,6 @@ LOCAL_PATH := $(call my-dir)
 # limitations under the License.
 #
 
-BOARD_KERNEL_SEPARATED_DT := true
-KERNEL_DIR := kernel
-
 -include $(TOP)/$(KERNEL_DIR)/AndroidKernel.mk
 
 # device.mk doesn't know about us, and we can't PRODUCT_COPY_FILES here.
@@ -26,26 +23,5 @@ KERNEL_DIR := kernel
 .PHONY: $(PRODUCT_OUT)/kernel
 $(PRODUCT_OUT)/kernel: $(TARGET_PREBUILT_KERNEL)
 	cp $(TARGET_PREBUILT_KERNEL) $(PRODUCT_OUT)/kernel
-
-DTB_FILES := $(wildcard $(TOP)/$(KERNEL_DIR)/arch/arm/boot/*.dtb)
-DTB_FILE := $(addprefix $(KERNEL_OUT)/arch/arm/boot/,$(patsubst %.dts,%.dtb,$(call DTS_FILE,$(1))))
-ZIMG_FILE := $(addprefix $(KERNEL_OUT)/arch/arm/boot/,$(patsubst %.dts,%-zImage,$(call DTS_FILE,$(1))))
-KERNEL_ZIMG := $(KERNEL_OUT)/arch/arm/boot/Image
-
-define append-dtb
-mkdir -p $(KERNEL_OUT)/arch/arm/boot;\
-$(foreach d, $(DTB_FILES), \
-    cat $(KERNEL_ZIMG) $(call DTB_FILE,$(d)) > $(call ZIMG_FILE,$(d));)
-endef
-
-## Build and run dtbtool
-DTBTOOL := $(HOST_OUT_EXECUTABLES)/dtbToolYU$(HOST_EXECUTABLE_SUFFIX)
-INSTALLED_DTIMAGE_TARGET := $(PRODUCT_OUT)/dt.img
-$(INSTALLED_DTIMAGE_TARGET): $(DTBTOOL) $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr $(INSTALLED_KERNEL_TARGET)
-	@echo -e ${CL_CYN}"Start DT image: $@"${CL_RST}
-	$(call append-dtb)
-	$(call pretty,"Target dt image: $(INSTALLED_DTIMAGE_TARGET)")
-	$(hide) $(DTBTOOL) -o $(INSTALLED_DTIMAGE_TARGET) -s 2048 -p $(KERNEL_OUT)/scripts/dtc/ $(KERNEL_OUT)/arch/arm/boot/dts/
-	@echo -e ${CL_CYN}"Made DT image: $@"${CL_RST}
 
 include device/qcom/msm8916_32/AndroidBoard.mk

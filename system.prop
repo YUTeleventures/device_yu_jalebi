@@ -31,7 +31,7 @@ debug.sf.gpu_comp_tiling=1
 debug.mdpcomp.idletime=600
 persist.hwc.mdpcomp.enable=true
 persist.hwc.ptor.enable=true
-ro.opengles.version=196608
+ro.opengles.version=196609
 debug.enable.sglscale=1
 
 # GPS
@@ -101,6 +101,7 @@ ro.frp.pst=/dev/block/bootdevice/by-name/frp
 ro.hwui.text_large_cache_height=2048
 
 # Radio
+persist.radio.multisim.config=dsds
 persist.radio.multisim.config=dsds
 ril.ecclist=000,08,100,101,102,110,112,118,119,120,122,911,999
 ril.ecclist1=000,08,100,101,102,110,112,118,119,120,122,911,999
