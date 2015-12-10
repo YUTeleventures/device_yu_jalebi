@@ -77,10 +77,6 @@ PRODUCT_PACKAGES += \
     pp_calib_data_nt35521_dijing_4p7inch_hd_video_panel.xml \
     svi_config.xml
 
-# dtbToolYU
-PRODUCT_PACKAGES += \
-    dtbToolYU
-
 # GPS
 PRODUCT_PACKAGES += \
     gps.msm8916
@@ -90,6 +86,10 @@ PRODUCT_PACKAGES += \
     keystore.msm8916 \
     keystore.qcom
 
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8916.so
+
 # Power HAL
 PRODUCT_PACKAGES += \
     power.msm8916 \
@@ -98,6 +98,10 @@ PRODUCT_PACKAGES += \
 # Stlport
 PRODUCT_PACKAGES += \
     libstlport
+
+# Sensor HAL
+PRODUCT_PACKAGES += \
+    sensors.msm8916
 
 # USB
 PRODUCT_PACKAGES += \
