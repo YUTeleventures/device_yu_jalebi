@@ -29,6 +29,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,device/yu/jalebi/prebuilt/system,system)
 
+# Prebuilt DT
+PRODUCT_COPY_FILES += \
+    device/yu/jalebi/dt.img:dt.img
+
 # CodeAurora msm8916_64 Tree
 include device/qcom/msm8916_32/msm8916_32.mk
 
