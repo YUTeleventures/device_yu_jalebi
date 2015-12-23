@@ -43,6 +43,9 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
+# Block based OTA
+BLOCK_BASED_OTA := false
+
 # Camera
 BOARD_CAMERA_SENSORS := ov8865_qtech_baly_6c gc2355_blx_ffln_78
 TARGET_USE_VENDOR_CAMERA_EXT := true
