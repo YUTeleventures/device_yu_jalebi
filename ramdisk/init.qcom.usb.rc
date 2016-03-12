@@ -36,9 +36,6 @@ on boot
     write /sys/class/android_usb/android0/f_rndis/vendorID ${ro.usb.vid}
     setprop persist.sys.usb.config.extra none
 
-on charger
-    setprop sys.usb.config mass_storage
-
 on fs
     write /sys/class/android_usb/android0/iSerial ${ro.serialno}
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
@@ -1005,12 +1002,4 @@ on property:sys.usb.config=ncm,adb
     write /sys/class/android_usb/android0/functions ncm,adb
     write /sys/class/android_usb/android0/enable 1
     start adbd
-    setprop sys.usb.state ${sys.usb.config}
-
-on property:sys.usb.config=charging
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.usb.vid}
-    write /sys/class/android_usb/android0/idProduct ${ro.usb.id.charge}
-    write /sys/class/android_usb/android0/functions charging
-    write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state ${sys.usb.config}
