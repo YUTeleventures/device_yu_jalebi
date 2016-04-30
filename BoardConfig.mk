@@ -16,6 +16,8 @@
 # inherit from common msm8916_32
 -include device/qcom/msm8916_32/BoardConfig.mk
 
+DEVICE_PATH := device/yu/jalebi
+
 # Bootloader
 TARGET_NO_BOOTLOADER := true
 
@@ -41,7 +43,7 @@ TARGET_USES_QCOM_MM_AUDIO := true
 USE_CUSTOM_AUDIO_POLICY := 1
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/yu/jalebi/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
@@ -73,7 +75,7 @@ AUDIO_FEATURE_ENABLED_FM := true
 BOARD_LIGHTS_VARIANT := aw2013
 
 # Kernel
-BOARD_CUSTOM_BOOTIMG_MK := device/yu/jalebi/mkbootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_PATH)/mkbootimg.mk
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1
 KERNEL_DEFCONFIG := cyanogenmod_jalebi_defconfig
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
@@ -95,14 +97,14 @@ BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_USES_QCOM_HARDWARE := false
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/yu/jalebi/ramdisk/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/ramdisk/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
-    device/yu/jalebi/sepolicy
+    $(DEVICE_PATH)/sepolicy
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
