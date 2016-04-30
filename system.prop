@@ -1,5 +1,6 @@
 # Art
 dalvik.vm.dex2oat-flags=--no-watch-dog
+ro.config.max_starting_bg=8
 
 # Audio
 tunnel.audio.encode=false
@@ -106,10 +107,14 @@ ro.telephony.ril.config=simactivation
 ril.ecclist=000,08,100,101,102,110,112,118,119,120,122,911,999
 ril.ecclist1=000,08,100,101,102,110,112,118,119,120,122,911,999
 ro.config.always_show_roaming=true
-ro.telephony.default_network=9,1
+ro.telephony.default_network=9,9
+ro.telephony.call_ring.multiple=false
 
 # disable camera debug spam
 persist.camera.hal.debug.mask=0
 
 # use 3 threads max for dex2oat
 ro.sys.fw.dex2oat_thread_count=3
+
+# Wifi
+wifi.interface=wlan0
