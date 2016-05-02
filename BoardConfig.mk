@@ -19,6 +19,8 @@
 # Bootloader
 TARGET_NO_BOOTLOADER := true
 
+ENABLE_CPUSETS := true
+
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
