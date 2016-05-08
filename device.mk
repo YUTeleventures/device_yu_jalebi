@@ -91,6 +91,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/yu/jalebi/keylayout/goodix.kl:system/usr/keylayout/goodix.kl
 
+# Misc
+PRODUCT_PACKAGES += \
+    libtinyxml
+
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8916.so
@@ -99,10 +103,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     power.msm8916 \
     power.qcom
-
-# Stlport
-PRODUCT_PACKAGES += \
-    libstlport
 
 # Sensor HAL
 PRODUCT_PACKAGES += \
