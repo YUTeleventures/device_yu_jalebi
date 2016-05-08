@@ -87,6 +87,10 @@ PRODUCT_PACKAGES += \
     keystore.msm8916 \
     keystore.qcom
 
+# Keylayout
+PRODUCT_COPY_FILES += \
+    device/yu/jalebi/keylayout/goodix.kl:system/usr/keylayout/goodix.kl
+
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8916.so

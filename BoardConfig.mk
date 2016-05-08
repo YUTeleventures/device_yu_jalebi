@@ -62,6 +62,9 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm
 # Display
 TARGET_USES_C2D_COMPOSITION := true
 
+# Double Tap to Wake
+TARGET_TAP_TO_WAKE_NODE := "/proc/gesture_enable"
+
 # FM
 TARGET_QCOM_NO_FM_FIRMWARE := true
 AUDIO_FEATURE_ENABLED_FM := true
