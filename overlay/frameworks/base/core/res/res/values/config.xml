@@ -324,10 +324,6 @@
     <!-- Whether device supports double tap to wake -->
     <bool name="config_supportDoubleTapWake">true</bool>
 
-    <!-- Older sensors are not setting event.timestamp correctly.  Setting to
-          true will use SystemClock.elapsedRealtimeNanos() to set timestamp-->
-    <bool name="config_useSystemClockforSensors">true</bool>
-
     <!-- Our modem doesn't support this query yet -->
     <string name="config_radio_access_family">GPRS|EDGE|UMTS|HSDPA|HSUPA|HSPA|LTE|HSPAP|GSM|TD_SCDMA|WCDMA|LTE_CA</string>
 
