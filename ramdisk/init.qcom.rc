@@ -67,6 +67,9 @@ on post-fs-data
     mkdir /data/nfc 0770 nfc nfc
     mkdir /data/nfc/param 0770 nfc nfc
 
+    mkdir /data/media 0770 media_rw media_rw
+    restorecon_recursive /data/media
+
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
     mkdir /tombstones/lpass 0771 system system
@@ -565,7 +568,7 @@ service qseecomd /system/bin/qseecomd
    user root
    group root
 
-service perfd /vendor/bin/perfd
+service perfd /system/vendor/bin/perfd
    class main
    user root
    group root
