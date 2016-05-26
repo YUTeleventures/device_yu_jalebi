@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
-#
+# test
 # Copyright (C) 2015 The AOSParadox Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
