@@ -1,0 +1,12 @@
+[
+  {
+    "repository": "kernel_yu_jalebi",
+    "target_path": "kernel/yu/jalebi",
+     "branch":      "yu-mm-6.0.1"
+  },
+  {
+    "repository": "proprietary_vendor_yu",
+    "target_path": "vendor/yu",
+     "branch":      "yu-mm-6.0.1"
+  }
+]
