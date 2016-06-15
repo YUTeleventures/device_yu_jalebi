@@ -17,9 +17,6 @@ persist.sys.isUsbOtgEnabled=1
 # Factory reset protection
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
-# HWUI
-ro.hwui.text_large_cache_height=2048
-
 # Radio
 persist.radio.multisim.config=dsds
 rild.libpath=/system/vendor/lib/libril-qc-qmi-1.so
