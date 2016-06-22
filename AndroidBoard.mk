@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
 #----------------------------------------------------------------------
-# extra images
+# extra image
 #----------------------------------------------------------------------
 include build/core/generate_extra_images.mk
