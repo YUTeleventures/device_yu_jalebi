@@ -24,16 +24,9 @@ LOCAL_CFLAGS = -Wall -Wextra -Werror
 #ifeq ($(TARGET_USE_VENDOR_CAMERA_EXT),true)
 #LOCAL_CFLAGS += -DUSE_VENDOR_CAMERA_EXT
 #endif
-
-ifeq ($(TARGET_USES_AOSP),true)
-LOCAL_CFLAGS += -DVANILLA_HAL
-endif
-
 ifneq ($(call is-platform-sdk-version-at-least,18),true)
 LOCAL_CFLAGS += -DUSE_JB_MR1
 endif
-
-LOCAL_CFLAGS += -DDEFAULT_DENOISE_MODE_ON
 
 LOCAL_C_INCLUDES := \
         $(LOCAL_PATH)/../stack/common \
@@ -78,6 +71,4 @@ LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
 
-ifeq ($(TARGET_USES_AOSP),false)
 include $(LOCAL_PATH)/test/Android.mk
-endif
