@@ -37,6 +37,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "NativeSensorManager.h"
+#include <unistd.h>
 
 ANDROID_SINGLETON_STATIC_INSTANCE(NativeSensorManager);
 
@@ -54,7 +55,7 @@ char NativeSensorManager::virtualSensorName[VIRTUAL_SENSOR_COUNT][SYSFS_MAXLEN];
 
 const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COUNT] = {
 	[ORIENTATION] = {
-		.name = "oem-orientation",
+		.name = virtualSensorName[ORIENTATION],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -75,7 +76,7 @@ const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COU
 	},
 
 	[PSEUDO_GYROSCOPE] = {
-		.name = "oem-pseudo-gyro",
+		.name = virtualSensorName[PSEUDO_GYROSCOPE],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -96,7 +97,7 @@ const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COU
 	},
 
 	[ROTATION_VECTOR] = {
-		.name = "oem-rotation-vector",
+		.name = virtualSensorName[ROTATION_VECTOR],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -117,7 +118,7 @@ const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COU
 	},
 
 	[LINEAR_ACCELERATION] = {
-		.name = "oem-linear-acceleration",
+		.name = virtualSensorName[LINEAR_ACCELERATION],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -138,7 +139,7 @@ const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COU
 	},
 
 	[GRAVITY] = {
-		.name = "oem-gravity",
+		.name = virtualSensorName[GRAVITY],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -159,7 +160,7 @@ const struct sensor_t NativeSensorManager::virtualSensorList [VIRTUAL_SENSOR_COU
 	},
 
 	[POCKET] = {
-		.name = "oem-pocket",
+		.name = virtualSensorName[POCKET],
 		.vendor = "oem",
 		.version = 1,
 		.handle = '_dmy',
@@ -499,15 +500,16 @@ int NativeSensorManager::getDataInfo() {
 			 * magnetometer. Some sensor vendors provide such implementations. The pseudo
 			 * gyroscope sensor is low cost but the performance is worse than the actual
 			 * gyroscope. So disable it for the system with actual gyroscope. */
+#ifdef ENABLE_DEPRECATED_VITRUAL_SENSOR
 			if (!initVirtualSensor(&context[mSensorCount], SENSORS_HANDLE(mSensorCount),
 						virtualSensorList[PSEUDO_GYROSCOPE])) {
 				addDependency(&context[mSensorCount], sensor_acc.handle);
 				addDependency(&context[mSensorCount], sensor_mag.handle);
 				mSensorCount++;
 			}
-
+#endif
 			compositeVirtualSensorName(sensor_mag.name, virtualSensorName[LINEAR_ACCELERATION], SENSOR_TYPE_LINEAR_ACCELERATION);
-			ALOGD("liear acceleration virtual sensor name changed to %s\n", virtualSensorName[ORIENTATION]);
+			ALOGD("liear acceleration virtual sensor name changed to %s\n", virtualSensorName[LINEAR_ACCELERATION]);
 			/* For linear acceleration */
 			if (!initVirtualSensor(&context[mSensorCount], SENSORS_HANDLE(mSensorCount),
 						virtualSensorList[LINEAR_ACCELERATION])) {
