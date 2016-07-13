@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #set -e
+
 export DEVICE=jalebi
 export VENDOR=yu
 
