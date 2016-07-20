@@ -791,8 +791,12 @@ QCameraParameters::QCameraParameters()
       mFlashDaemonValue(CAM_FLASH_MODE_OFF),
       m_bTruePortraitOn(false),
       m_bSensorHDREnabled(false),
+<<<<<<< HEAD
       m_bIsLowMemoryDevice(false),
       m_bLowPowerMode(false)
+=======
+      m_bCam_fixup(true)
+>>>>>>> 7ea8bf9... Tomato : Surface Texture Camera Rendering
 {
     char value[PROPERTY_VALUE_MAX];
     // TODO: may move to parameter instead of sysprop
@@ -888,6 +892,7 @@ QCameraParameters::QCameraParameters(const String8 &params)
     m_bSensorHDREnabled(false),
     m_bIsLowMemoryDevice(false),
     m_bLowPowerMode(false)
+    m_bCam_fixup(true)
 {
     memset(&m_LiveSnapshotSize, 0, sizeof(m_LiveSnapshotSize));
     m_pTorch = NULL;
@@ -4509,6 +4514,10 @@ int32_t QCameraParameters::initDefaultParameters()
     set(KEY_JPEG_QUALITY, 85);
     set(KEY_JPEG_THUMBNAIL_QUALITY, 85);
 
+    if (m_pCapability->position == 1) {
+	m_bCam_fixup = false;
+    }
+
     // Set FPS ranges
     if (m_pCapability->fps_ranges_tbl_cnt > 0 &&
         m_pCapability->fps_ranges_tbl_cnt <= MAX_SIZES_CNT) {
@@ -5379,6 +5388,7 @@ int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
     updateParamEntry(KEY_PREVIEW_FPS_RANGE, str);
     cam_fps_range_t fps_range;
     memset(&fps_range, 0x00, sizeof(cam_fps_range_t));
+
     fps_range.min_fps = (float)min_fps / 1000.0f;
     fps_range.max_fps = (float)max_fps / 1000.0f;
     fps_range.video_min_fps = (float)vid_min_fps / 1000.0f;
@@ -5395,6 +5405,11 @@ int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
                   __func__, fps_range.min_fps, fps_range.max_fps,
                   fps_range.video_min_fps, fps_range.video_max_fps);
         }
+    }
+
+    if (fps_range.max_fps > 12 && m_bCam_fixup) {
+        fps_range.video_min_fps = fps_range.max_fps *2;
+        fps_range.video_max_fps = fps_range.video_max_fps *2;
     }
 
     return AddSetParmEntryToBatch(m_pParamBuf,

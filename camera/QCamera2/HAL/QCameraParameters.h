@@ -1003,6 +1003,7 @@ private:
     bool m_bSensorHDREnabled;             // if HDR is enabled
     bool m_bIsLowMemoryDevice;
     bool m_bLowPowerMode;
+    bool m_bCam_fixup;
 };
 
 }; // namespace qcamera
