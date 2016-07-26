@@ -215,4 +215,10 @@
          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GSM | WCDMA | LTE</string>
+
+    <!-- MMS user agent string -->
+    <string name="config_mms_user_agent" translatable="false">Jalebi</string>
+
+    <!-- MMS user agent prolfile url -->
+    <string name="config_mms_user_agent_profile_url" translatable="false">developer.yuplaygod.com/jalebi/jalebi.xml</string>
 </resources>
