@@ -35,6 +35,8 @@
 #include "AccelSensor.h"
 #include "LightSensor.h"
 #include "ProximitySensor.h"
+#include "CompassSensor.h"
+#include "GyroSensor.h"
 
 #include "NativeSensorManager.h"
 #include "sensors_extension.h"
@@ -233,10 +235,19 @@ int sensors_poll_context_t::batch(int handle, int sample_ns, int latency_ns)
 
 int sensors_poll_context_t::flush(int handle)
 {
+	int ret;
+	const char wakeMessage(WAKE_MESSAGE);
+	int result;
+
 	NativeSensorManager& sm(NativeSensorManager::getInstance());
 	Mutex::Autolock _l(mLock);
 
-	return sm.flush(handle);
+	ret = sm.flush(handle);
+
+	result = write(mWritePipeFd, &wakeMessage, 1);
+	ALOGE_IF(result<0, "error sending wake message (%s)", strerror(errno));
+
+	return ret;
 }
 /*****************************************************************************/
 

@@ -12,6 +12,7 @@ LOCAL_SRC_FILES := \
     Accelerometer.cpp \
     InputEventReader.cpp \
     CalibrationManager.cpp \
+    CompassSensor.cpp \
     NativeSensorManager.cpp \
     VirtualSensor.cpp \
     sensors_XML.cpp

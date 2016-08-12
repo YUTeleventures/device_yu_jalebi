@@ -213,7 +213,7 @@ int SensorBase::flush(int32_t handle)
          */
 
         /* Should return -EINVAL if the sensor is not enabled */
-        if ((!mEnabled) || (ctx == NULL)) {
+        if ((!mEnabled) || (ctx == NULL) || (ctx->sensor->flags & SENSOR_FLAG_ONE_SHOT_MODE)) {
                 ALOGE("handle:%d mEnabled:%d ctx:%p\n", handle, mEnabled, ctx);
                 return -EINVAL;
         }

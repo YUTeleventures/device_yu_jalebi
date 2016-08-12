@@ -434,6 +434,11 @@ int NativeSensorManager::getDataInfo() {
 				list->driver = new AccelSensor(list);
 				sensor_acc = *(list->sensor);
 				break;
+			case SENSOR_TYPE_MAGNETIC_FIELD:
+				has_compass = 1;
+				list->driver = new CompassSensor(list);
+				sensor_mag = *(list->sensor);
+				break;
 			case SENSOR_TYPE_PROXIMITY:
 				has_proximity = 1;
 #if defined(SENSORS_DEVICE_API_VERSION_1_3)
@@ -451,6 +456,14 @@ int NativeSensorManager::getDataInfo() {
 #endif
 				list->driver = new LightSensor(list);
 				sensor_light = *(list->sensor);
+				break;
+			case SENSOR_TYPE_GYROSCOPE:
+				has_gyro = 1;
+				list->driver = new GyroSensor(list);
+				sensor_gyro = *(list->sensor);
+				break;
+			case SENSOR_TYPE_SIGNIFICANT_MOTION:
+				list->driver = new SmdSensor(list);
 				break;
 			default:
 				list->driver = NULL;
@@ -881,6 +894,10 @@ int NativeSensorManager::activate(int handle, int enable)
 
 	list->enable = enable;
 
+	/* one shot sensors don't act as base sensors */
+	if (list->sensor->flags & SENSOR_FLAG_ONE_SHOT_MODE)
+		return list->driver->enable(handle, enable);
+
 	/* Search for the background sensor for the sensor specified by handle. */
 	list_for_each(node, &list->dep_list) {
 		item = node_to_item(node, struct SensorRefMap, list);
@@ -891,13 +908,13 @@ int NativeSensorManager::activate(int handle, int enable)
 			/* HAL 1.3 already set listener's delay and latency
 			 * Sync it right now to make it take effect.
 			 */
-			syncDelay(item->ctx->sensor->handle);
 			syncLatency(item->ctx->sensor->handle);
 #endif
 
 			/* Enable the background sensor and register a listener on it. */
 			ALOGD("%s calling driver enable", item->ctx->sensor->name);
 			item->ctx->driver->enable(item->ctx->sensor->handle, 1);
+			syncDelay(item->ctx->sensor->handle);
 
 		} else {
 			/* The background sensor has other listeners, we need
@@ -1032,6 +1049,10 @@ int NativeSensorManager::setDelay(int handle, int64_t ns)
 		return -EINVAL;
 	}
 
+	/* ignore setDelay call for one-shot sensors */
+	if (list->sensor->flags & SENSOR_FLAG_ONE_SHOT_MODE)
+		return 0;
+
 	if (ns < list->sensor->minDelay * 1000) {
 		ALOGW("%s delay is less than minDelay. Cast it to minDelay", list->sensor->name);
 		list->delay_ns = list->sensor->minDelay * 1000;
@@ -1100,6 +1121,10 @@ int NativeSensorManager::batch(int handle, int64_t sample_ns, int64_t latency_ns
 		return -EINVAL;
 	}
 
+	/* ignore batch call for one-shot sensors */
+	if (list->sensor->flags & SENSOR_FLAG_ONE_SHOT_MODE)
+		return 0;
+
 	/* *sample_ns* is the same as *ns* passed to setDelay */
 	list->delay_ns = sample_ns;
 	list->latency_ns = latency_ns;
@@ -1128,14 +1153,9 @@ int NativeSensorManager::flush(int handle)
 		return -EINVAL;
 	}
 
-	list_for_each(node, &list->dep_list) {
-		item = node_to_item(node, struct SensorRefMap, list);
-		ret = item->ctx->driver->flush(item->ctx->sensor->handle);
-		if (ret) {
-			ALOGE("Calling flush failed(%d)", ret);
-			return ret;
-		}
-	}
+	/* one shot sensors should return -EINVAL */
+	if (list->sensor->flags & SENSOR_FLAG_ONE_SHOT_MODE)
+		return -EINVAL;
 
 	/* calling flush for virtual sensor */
 	if (list->is_virtual) {
@@ -1144,6 +1164,17 @@ int NativeSensorManager::flush(int handle)
 			ALOGE("Calling flush failed(%d)", ret);
 			return ret;
 		}
+
+	} else {
+		list_for_each(node, &list->dep_list) {
+			item = node_to_item(node, struct SensorRefMap, list);
+			ret = item->ctx->driver->flush(item->ctx->sensor->handle);
+			if (ret) {
+				ALOGE("Calling flush failed(%d)", ret);
+				return ret;
+			}
+		}
+
 	}
 
 	return 0;
